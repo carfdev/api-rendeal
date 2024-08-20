@@ -1,0 +1,22 @@
+{
+  "name": "api-rendeal",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outfile build/index.js --target bun --minify",
+    "start": "bun run build/index.js"
+  },
+  "dependencies": {
+    "elysia": "1.1.6",
+    "jsonwebtoken": "9.0.2",
+    "pg": "8.12.0",
+    "redis": "4.7.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/pg": "^8.11.6",
+    "bun-types": "1.1.24"
+  },
+  "module": "src/index.js"
+}
