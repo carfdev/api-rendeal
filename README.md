@@ -64,7 +64,7 @@ The server will be running at http://localhost:1337 by default.
 - PORT: The port number where the server will listen for requests.
 - JWT_SECRET: The secret key used for signing JWT tokens.
 
-### Endpoints
+## Endpoints
 
 `/test`
 
@@ -86,7 +86,7 @@ curl -X GET http://localhost:1337/test
 
 - Notes: Replace this example with your actual endpoints. Make sure to describe each endpoint with its method, parameters, and expected responses.
 
-### Error Handling
+## Error Handling
 
 Errors are handled with HTTP status codes and detailed messages. Common errors include:
 
