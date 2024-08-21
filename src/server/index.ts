@@ -14,13 +14,15 @@ export class Server {
     this.app.use(logger());
 
     // Derive middleware for authentication
-    this.app.derive(({ headers }) => {
-      const authHeader = headers["authorization"];
-      const token = authHeader?.startsWith("Bearer ")
-        ? authHeader.slice(7)
-        : undefined;
-      return { token };
-    });
+    this.app
+      .derive(({ headers }) => {
+        const authHeader = headers["authorization"];
+        const token = authHeader?.startsWith("Bearer ")
+          ? authHeader.slice(7)
+          : undefined;
+        return { token };
+      })
+      .get("/", () => "Welcome to Rendeal's Cleaning Service API!");
 
     // Group routes under /v1
     this.setupRoutes();
