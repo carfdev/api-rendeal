@@ -49,8 +49,7 @@ export class Server {
       const { hostname } = this.app.server || { hostname: "localhost" };
 
       // Create a custom message
-      const message = `
-${getAsciiArt("Rendeal")}
+      const message = `${getAsciiArt("Rendeal")}
 ${getColoredText("Welcome to Rendeal's Cleaning Service API!", "cyan")}
 ${getColoredText(`Server is running at http://${hostname}:${port}`, "yellow")}
 ${getColoredText("Cleaning your data with precision!", "gray")}
