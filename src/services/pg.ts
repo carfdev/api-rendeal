@@ -31,25 +31,10 @@ export class DB {
     this.pool = new Pool(config);
 
     // Initialize Redis client and connect
-    this.redis = createClient({ url: Bun.env.REDIS_URL, pingInterval: 3000 });
-    this.setupRedisListeners();
+    this.redis = createClient({ url: Bun.env.REDIS_URL, pingInterval: 5000 });
     this.redis.connect().catch((err) => {
       console.error("Failed to connect to Redis:", err);
     });
-  }
-
-  private setupRedisListeners() {
-    // Log connection errors
-    this.redis.on("error", (err) => {});
-
-    // Attempt reconnection on disconnection
-    this.redis.on("end", () => {});
-
-    // Handle reconnection attempts
-    this.redis.on("reconnecting", () => {});
-
-    // Log successful reconnection
-    this.redis.on("connect", () => {});
   }
 
   /**
