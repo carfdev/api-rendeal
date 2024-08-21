@@ -66,21 +66,30 @@ The server will be running at http://localhost:1337 by default.
 
 ## Endpoints
 
-### `/test`
+### `/admin/login`
 
 - Method: GET
 - Description: Example endpoint to test server connectivity and response.
 - Request Example:
 
 ```bash
-curl -X GET http://localhost:1337/v1/test
+POST http://localhost:1337/v1//admin/login
+```
+
+```json
+body {
+   "email": "admin1@example.com",
+   "password": "Password"
+}
 ```
 
 - Response:
 
 ```json
 {
-  "message": "This is a test endpoint"
+  "status": "success",
+  "token": "token",
+  "message": "Login successful"
 }
 ```
 
