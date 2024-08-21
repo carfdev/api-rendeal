@@ -66,14 +66,14 @@ The server will be running at http://localhost:1337 by default.
 
 ## Endpoints
 
-`/test`
+### `/test`
 
 - Method: GET
 - Description: Example endpoint to test server connectivity and response.
 - Request Example:
 
 ```bash
-curl -X GET http://localhost:1337/test
+curl -X GET http://localhost:1337/v1/test
 ```
 
 - Response:
@@ -83,8 +83,6 @@ curl -X GET http://localhost:1337/test
   "message": "This is a test endpoint"
 }
 ```
-
-- Notes: Replace this example with your actual endpoints. Make sure to describe each endpoint with its method, parameters, and expected responses.
 
 ## Error Handling
 
@@ -107,4 +105,4 @@ We welcome contributions to the Rendeal Cleaning Service API. Please follow thes
 
 ## License
 
-This project is licensed under the Apache License - see the LICENSE file for details.
+This project is licensed under the Apache License - see the [LICENSE](./LICENSE) file for details.
