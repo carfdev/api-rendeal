@@ -72,26 +72,30 @@ The server will be running at http://localhost:1337 by default.
 - Description: Example endpoint to test server connectivity and response.
 - Request Example:
 
-```bash
-POST http://localhost:1337/v1//admin/login
-```
+  - endpoint:
 
-```json
-body {
-   "email": "admin1@example.com",
-   "password": "Password"
-}
-```
+    ```bash
+    POST http://localhost:1337/v1//admin/login
+    ```
+
+  - body:
+
+    ```json
+    {
+      "email": "admin1@example.com",
+      "password": "Password"
+    }
+    ```
 
 - Response:
 
-```json
-{
-  "status": "success",
-  "token": "token",
-  "message": "Login successful"
-}
-```
+  ```json
+  {
+    "status": "success",
+    "token": "token",
+    "message": "Login successful"
+  }
+  ```
 
 ## Error Handling
 
