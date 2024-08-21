@@ -1,7 +1,7 @@
 // server.ts
 import { Elysia } from "elysia";
 import { logger } from "@/services/logger";
-import { pruebaRouter } from "@/prueba/pruebaRouter";
+import { adminRouter } from "@/admin";
 import { getAsciiArt, getColoredText } from "./utils";
 
 export class Server {
@@ -32,7 +32,7 @@ export class Server {
    */
   private setupRoutes(): Elysia {
     return this.app.group("/v1", (app) => {
-      app.use(pruebaRouter);
+      app.use(adminRouter);
       // Add additional routers here
       return app;
     });
