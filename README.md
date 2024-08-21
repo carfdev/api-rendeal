@@ -68,8 +68,8 @@ The server will be running at http://localhost:1337 by default.
 
 ### `/admin/login`
 
-- Method: GET
-- Description: Example endpoint to test server connectivity and response.
+- Method: POST
+- Description: Administrator Authentication. This endpoint allows administrators to log in to the system, providing a valid access token to perform administrative operations.
 - Request Example:
 
   - endpoint:
