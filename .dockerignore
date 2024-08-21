@@ -25,6 +25,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
+.env.example
 .env.local
 .env.development.local
 .env.test.local
@@ -40,3 +42,20 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+# git
+
+.gitignore
+.git
+
+#sql
+
+database.sql
+
+# License
+
+LICENSE
+
+# Readme
+
+README.md
