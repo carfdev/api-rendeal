@@ -8,7 +8,7 @@ Welcome to the Rendeal Cleaning Service API documentation. This API provides var
 - [Getting Started](#getting-started)
 - [Configuration](#configuration)
 - [Endpoints](#endpoints)
-  - [/test](#test)
+  - [/admin/login](#/admin/login)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
 - [License](#license)
