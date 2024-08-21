@@ -75,7 +75,7 @@ The server will be running at http://localhost:1337 by default.
   - endpoint:
 
     ```bash
-    POST http://localhost:1337/v1//admin/login
+    POST http://localhost:1337/v1/admin/login
     ```
 
   - body:
