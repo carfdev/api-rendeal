@@ -1,11 +1,18 @@
-import { Elysia } from "elysia"; // Import the Elysia framework
+import { Elysia } from "elysia"; // Import the Elysia framework for routing and middleware
 
-import { loginController } from "./dependencies"; // Import the loginController instance from dependencies
-import { loginAdminDTO } from "./adminDTO"; // Import the DTO for login validation
+// Import controller instances and DTOs for validation
+import { loginController, createController } from "./dependencies"; // Controllers for handling requests
+import { loginAdminDTO, createAdminDTO } from "./adminDTO"; // DTOs for validating request bodies
 
-// Define the admin router with a "/admin" prefix
-export const adminRouter = new Elysia({ prefix: "/admin" }).post(
-  "/login", // Define a POST route for "/login"
-  loginController.handle.bind(loginController), // Bind and assign the loginController's handle method to this route
-  loginAdminDTO // Apply the DTO for request validation
-);
+// Create and configure the admin router with a "/admin" prefix
+export const adminRouter = new Elysia({ prefix: "/admin" })
+  .post(
+    "/login", // Route for handling login requests
+    loginController.handle.bind(loginController), // Bind the handle method from LoginController to this route
+    loginAdminDTO // Apply DTO for validating login request body
+  )
+  .post(
+    "/create", // Route for handling admin creation requests
+    createController.handle.bind(createController), // Bind the handle method from CreateController to this route
+    createAdminDTO // Apply DTO for validating admin creation request body
+  );
