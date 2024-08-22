@@ -7,4 +7,6 @@ export interface IAdmin {
    * @returns A promise that resolves to an Admin object or null if not found.
    */
   getAdminByEmail(email: string): Promise<Admin | null>;
+  getAdminById(id: string): Promise<Admin | null>;
+  createAdmin(email: string, password: string): Promise<Admin | null>;
 }
