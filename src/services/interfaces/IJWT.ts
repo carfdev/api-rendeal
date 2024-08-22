@@ -22,5 +22,5 @@ export interface IJWT {
    *
    * @throws This method may throw an error if the verification process fails.
    */
-  verify(token: string): Promise<Record<string, any> | null>;
+  verify(token: string): Promise<Record<string, any> | string | null>;
 }
