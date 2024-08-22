@@ -5,9 +5,10 @@ import {
   WhereType,
   SelectType,
   FindUniqueObject,
+  CreateObject,
 } from "@/services/interfaces/IPG"; // Import types
 
-// Parse the database URL into configuration object
+// Helper function to parse the database URL
 const parseDatabaseUrl = (url: string): DBconfig => {
   const databaseUrl = new URL(url);
   return {
@@ -19,22 +20,76 @@ const parseDatabaseUrl = (url: string): DBconfig => {
   };
 };
 
-// Parse the database configuration from environment variables
+// Parse configuration from environment variables
 const config = parseDatabaseUrl(Bun.env.DATABASE_URL || "");
 
-export class DB {
+// Class to handle PostgreSQL operations
+class PostgresDB {
   private pool: Pool;
-  private redis: RedisClientType;
 
-  constructor() {
-    // Initialize PostgreSQL pool
+  constructor(config: DBconfig) {
     this.pool = new Pool(config);
+  }
 
-    // Initialize Redis client and connect
-    this.redis = createClient({ url: Bun.env.REDIS_URL, pingInterval: 5000 });
-    this.redis.connect().catch((err) => {
+  /**
+   * Execute a query and return the result.
+   * @param query - SQL query string.
+   * @param values - Values to be used in the query.
+   * @returns Query result rows.
+   */
+  async query(query: string, values: any[]) {
+    const client = await this.pool.connect();
+    try {
+      const result = await client.query(query, values);
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
+}
+
+// Class to handle Redis caching operations
+class RedisCache {
+  private client: RedisClientType;
+
+  constructor(redisUrl: string) {
+    this.client = createClient({ url: redisUrl, pingInterval: 5000 });
+    this.client.connect().catch((err) => {
       console.error("Failed to connect to Redis:", err);
     });
+  }
+
+  /**
+   * Get value from Redis by key.
+   * @param key - Redis key.
+   * @returns Cached value or null if not found.
+   */
+  async get(key: string) {
+    const value = await this.client.get(key);
+    return value ? JSON.parse(value) : null;
+  }
+
+  /**
+   * Set value in Redis with expiration.
+   * @param key - Redis key.
+   * @param value - Value to cache.
+   * @param expiration - Expiration time in seconds.
+   */
+  async set(key: string, value: any, expiration: number) {
+    await this.client.set(key, JSON.stringify(value), {
+      EX: expiration,
+      NX: true,
+    });
+  }
+}
+
+export class DB {
+  private db: PostgresDB;
+  private cache: RedisCache;
+
+  constructor() {
+    this.db = new PostgresDB(config);
+    this.cache = new RedisCache(Bun.env.REDIS_URL as string);
   }
 
   /**
@@ -66,29 +121,21 @@ export class DB {
     try {
       // Check Redis cache
       const cacheKey = `${table}_${values.join("_")}`;
-      const cached = await this.redis.get(cacheKey);
+      const cached = await this.cache.get(cacheKey);
 
       if (cached) {
-        return JSON.parse(cached);
+        return cached;
       } else {
         // Query PostgreSQL
-        const client = await this.pool.connect();
-        try {
-          const result = await client.query(query, values);
-          const record = result.rows[0] || null;
+        const result = await this.db.query(query, values);
+        const record = result[0] || null;
 
-          // Cache the result in Redis
-          if (record) {
-            await this.redis.set(cacheKey, JSON.stringify(record), {
-              EX: 3600, // Cache expiration time in seconds
-              NX: true, // Only set the key if it doesn't already exist
-            });
-          }
-
-          return record;
-        } finally {
-          client.release();
+        // Cache the result in Redis
+        if (record) {
+          await this.cache.set(cacheKey, record, 3600); // Cache expiration time in seconds
         }
+
+        return record;
       }
     } catch (error) {
       console.error("Database query failed:", error);
@@ -114,7 +161,6 @@ export class DB {
    * @param data - The data to insert.
    * @returns The inserted record if successful, otherwise null.
    */
-
   private async createMethod(table: string, data: Record<string, any>) {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -127,13 +173,8 @@ export class DB {
     `;
     try {
       // Query PostgreSQL
-      const client = await this.pool.connect();
-      try {
-        const result = await client.query(query, values);
-        return result.rows[0];
-      } finally {
-        client.release();
-      }
+      const result = await this.db.query(query, values);
+      return result[0];
     } catch (error) {
       console.error("Database query failed:", error);
       return null;
@@ -141,7 +182,7 @@ export class DB {
   }
 
   // Implement the create methods for each table
-  create: FindUniqueObject = {
+  create: CreateObject = {
     admins: async (data) => this.createMethod("public.admins", data),
     workers: async (data) => this.createMethod("public.workers", data),
     clients: async (data) => this.createMethod("public.clients", data),
