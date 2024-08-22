@@ -9,6 +9,7 @@ Welcome to the Rendeal Cleaning Service API documentation. This API provides var
 - [Configuration](#configuration)
 - [Endpoints](#endpoints)
   - [/admin/login](#adminlogin)
+  - [/admin/create](#admincreate)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
 - [License](#license)
@@ -94,6 +95,42 @@ The server will be running at http://localhost:1337 by default.
     "status": "success",
     "token": "token",
     "message": "Login successful"
+  }
+  ```
+
+  ### `/admin/create`
+
+- Method: POST
+- Description: Create a new admin user. This endpoint allows the creation of a new administrator in the system. It requires a valid JWT token in the Authorization header and the email and password for the new admin in the request body.
+- Request Example:
+
+  - endpoint:
+
+    ```bash
+    POST http://localhost:1337/v1/admin/create
+    ```
+
+    - Headers:
+
+    ```plaintext
+    Authorization: Bearer <your-jwt-token>
+    ```
+
+  - body:
+
+    ```json
+    {
+      "email": "admin1@example.com",
+      "password": "Password"
+    }
+    ```
+
+- Response:
+
+  ```json
+  {
+    "status": "success",
+    "message": "Admin created successfully"
   }
   ```
 
