@@ -110,7 +110,7 @@ The server will be running at http://localhost:1337 by default.
     POST http://localhost:1337/v1/admin/create
     ```
 
-    - Headers:
+  - Headers:
 
     ```plaintext
     Authorization: Bearer <your-jwt-token>
