@@ -107,4 +107,44 @@ export class DB {
     invoices: async (where, select) =>
       this.findUniqueMethod("public.invoices", where, select),
   };
+
+  /**
+   * Create a new record in the specified table.
+   * @param table - The table to insert into.
+   * @param data - The data to insert.
+   * @returns The inserted record if successful, otherwise null.
+   */
+
+  private async createMethod(table: string, data: Record<string, any>) {
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+
+    // Build the SQL query
+    const query = `
+      INSERT INTO ${table} (${keys.join(", ")})
+      VALUES (${keys.map((_, index) => `$${index + 1}`).join(", ")})
+      RETURNING *;
+    `;
+    try {
+      // Query PostgreSQL
+      const client = await this.pool.connect();
+      try {
+        const result = await client.query(query, values);
+        return result.rows[0];
+      } finally {
+        client.release();
+      }
+    } catch (error) {
+      console.error("Database query failed:", error);
+      return null;
+    }
+  }
+
+  // Implement the create methods for each table
+  create: FindUniqueObject = {
+    admins: async (data) => this.createMethod("public.admins", data),
+    workers: async (data) => this.createMethod("public.workers", data),
+    clients: async (data) => this.createMethod("public.clients", data),
+    invoices: async (data) => this.createMethod("public.invoices", data),
+  };
 }
