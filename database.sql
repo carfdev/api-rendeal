@@ -66,16 +66,16 @@ alter table Clients
 drop constraint clients_worker_id_fkey;
 
 alter table Clients
-add constraint clients_worker_id_fkey foreign key (worker_id) references workers (id) on delete cascade;
+add constraint clients_worker_id_fkey foreign key (worker_id) references Workers (id) on delete cascade;
 
 alter table Invoices
 drop constraint invoices_worker_id_fkey;
 
 alter table Invoices
-add constraint invoices_worker_id_fkey foreign key (worker_id) references workers (id) on delete cascade;
+add constraint invoices_worker_id_fkey foreign key (worker_id) references Workers (id) on delete cascade;
 
 alter table Invoices
 drop constraint invoices_client_id_fkey;
 
 alter table Invoices
-add constraint invoices_client_id_fkey foreign key (client_id) references clients (id) on delete cascade;
+add constraint invoices_client_id_fkey foreign key (client_id) references Clients (id) on delete cascade;
