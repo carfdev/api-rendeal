@@ -13,8 +13,10 @@ export interface DBconfig {
 export type WhereType = Record<string, any>; // More specific type if structure is known
 export type SelectType = Record<string, boolean | null>; // Field selection
 
+// Return type for findUnique methods
 export type FindUniqueReturnType<T> = Promise<T | null>;
 
+// Generic FindUniqueObject interface for different table types
 export type FindUniqueObject = {
   admins: (
     where: WhereType,
@@ -32,4 +34,12 @@ export type FindUniqueObject = {
     where: WhereType,
     select: SelectType
   ) => FindUniqueReturnType<Record<string, any>>;
+};
+
+// Generic CreateObject interface for different table types
+export type CreateObject = {
+  admins: (data: Record<string, any>) => Promise<Record<string, any>>;
+  workers: (data: Record<string, any>) => Promise<Record<string, any>>;
+  clients: (data: Record<string, any>) => Promise<Record<string, any>>;
+  invoices: (data: Record<string, any>) => Promise<Record<string, any>>;
 };
