@@ -6,15 +6,22 @@ export const loginAdminDTO = {
     {
       email: t.String({
         format: "email",
-        error: { message: "Invalid email format" },
+        error: {
+          status: "error",
+          message: "Invalid email format",
+        },
       }), // Email field with format validation
       password: t.String({
         minLength: 8,
-        error: { message: "Password must be at least 8 characters long" },
+        error: {
+          status: "error",
+          message: "Password must be at least 8 characters long",
+        },
       }), // Password field with minimum length validation
     },
     {
       error: {
+        status: "error",
         message: "Email and password are required", // General error message for missing fields
       },
     }
@@ -27,15 +34,22 @@ export const createAdminDTO = {
     {
       email: t.String({
         format: "email",
-        error: { message: "Invalid email format" },
+        error: {
+          status: "error",
+          message: "Invalid email format",
+        },
       }), // Email field with format validation
       password: t.String({
         minLength: 8,
-        error: { message: "Password must be at least 8 characters long" },
+        error: {
+          status: "error",
+          message: "Password must be at least 8 characters long",
+        },
       }), // Password field with minimum length validation
     },
     {
       error: {
+        status: "error",
         message: "Email and password are required", // General error message for missing fields
       },
     }
