@@ -1,17 +1,27 @@
-import { Hash } from "@/services/hash"; // Import the Hash service for password hashing
-import { JWT } from "@/services/jwt"; // Import the JWT service for token generation and verification
+// Import services and repositories
+import { Hash } from "@/services/hash"; // Service for password hashing
+import { JWT } from "@/services/jwt"; // Service for JWT generation and verification
+import { AdminRepository } from "@/admin/infraestructure/AdminRepository"; // Repository for Admin entity
 
-import { AdminRepository } from "@/admin/infraestructure/AdminRepository"; // Import the Admin repository
-import { Login } from "@/admin/aplication/login"; // Import the Login service
-import { LoginController } from "./controllers/loginController"; // Import the Login controller
+// Import application services
+import { Login } from "@/admin/aplication/login"; // Service for handling login logic
+import { Create } from "@/admin/aplication/create"; // Service for handling admin creation logic
 
-// Instantiate the services and repository
-const hash = new Hash(); // Create an instance of the Hash service
-const jwt = new JWT(); // Create an instance of the JWT service
-const adminRepository = new AdminRepository(); // Create an instance of the Admin repository
+// Import controllers
+import { LoginController } from "./controllers/loginController"; // Controller for login endpoint
+import { CreateController } from "./controllers/createController"; // Controller for create admin endpoint
 
-// Create an instance of the Login service, injecting the repository, JWT, and Hash services
-const login = new Login(adminRepository, jwt, hash);
+// Instantiate services
+const hash = new Hash(); // Hash service for hashing passwords
+const jwt = new JWT(); // JWT service for token operations
 
-// Create an instance of the LoginController, injecting the Login service
-export const loginController = new LoginController(login); // Export the LoginController instance
+// Instantiate repository
+const adminRepository = new AdminRepository(); // Repository for database interactions with Admin entity
+
+// Instantiate application services with injected dependencies
+const login = new Login(adminRepository, jwt, hash); // Login service with dependencies
+const create = new Create(adminRepository, jwt, hash); // Create service with dependencies
+
+// Instantiate controllers with injected application services
+export const loginController = new LoginController(login); // LoginController with Login service
+export const createController = new CreateController(create); // CreateController with Create service
