@@ -1,16 +1,19 @@
-create table Rols (
+CREATE SCHEMA IF NOT EXISTS public
+    AUTHORIZATION rendeal;
+
+create table public.Rols (
   id bigint primary key generated always as identity,
   rol text not null
 );
 
-create table Admins (
+create table public.Admins (
   id uuid primary key default gen_random_uuid (),
   email text not null unique,
   password text not null,
   rol_id bigint not null references Rols (id)
 );
 
-create table Workers (
+create table public.Workers (
   id uuid primary key default gen_random_uuid (),
   email text not null unique,
   password text not null,
@@ -30,7 +33,7 @@ create table Workers (
   rol_id bigint not null references Rols (id)
 );
 
-create table Clients (
+create table public.Clients (
   id uuid primary key default gen_random_uuid (),
   email text not null unique,
   password text not null,
@@ -50,7 +53,7 @@ create table Clients (
   rol_id bigint not null references Rols (id)
 );
 
-create table Invoices (
+create table public.Invoices (
   id uuid primary key default gen_random_uuid (),
   amount numeric not null,
   ocr text not null,
