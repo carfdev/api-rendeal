@@ -5,7 +5,7 @@ create table Rols (
 
 create table Admins (
   id uuid primary key default gen_random_uuid (),
-  email text not null,
+  email text not null unique,
   password text not null,
   rol_id bigint not null references Rols (id)
 );
