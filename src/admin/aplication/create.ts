@@ -2,10 +2,6 @@ import type { IAdmin } from "@/admin/domain/IAdmin";
 import type { IJWT } from "@/services/interfaces/IJWT";
 import type { IHash } from "@/services/interfaces/IHash";
 
-interface ErrorResponse {
-  error: string;
-}
-
 export class Create {
   constructor(
     private readonly adminRepository: IAdmin,
