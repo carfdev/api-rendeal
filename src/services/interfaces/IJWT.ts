@@ -12,7 +12,7 @@ export interface IJWT {
    *
    * @throws This method may throw an error if signing the token fails.
    */
-  sign(payload: Record<string, any>): Promise<string>;
+  sign(payload: Record<string, any>, exp?: string): Promise<string>;
 
   /**
    * Verifies the given JWT and returns the decoded payload if valid.
