@@ -17,11 +17,11 @@ export class JWT implements IJWT {
    *
    * @throws This method may throw an error if the signing process fails.
    */
-  async sign(payload: Record<string, any>): Promise<string> {
+  async sign(payload: Record<string, any>, exp?: string): Promise<string> {
     try {
       // Assert that JWT_SECRET is a string
       const token = jwt.sign({ data: payload }, JWT_SECRET as string, {
-        expiresIn: "1d", // Token expiration can be configured externally if needed.
+        expiresIn: exp || "1d", // Token expiration can be configured externally if needed.
       });
       return token;
     } catch (error) {
