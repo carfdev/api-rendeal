@@ -2,6 +2,10 @@ import type { IAdmin } from "@/admin/domain/IAdmin";
 import type { IJWT } from "@/services/interfaces/IJWT";
 import type { IHash } from "@/services/interfaces/IHash";
 
+interface ErrorResponse {
+  error: string;
+}
+
 export class Create {
   constructor(
     private readonly adminRepository: IAdmin,
@@ -16,7 +20,7 @@ export class Create {
    * @param token - JWT token for authorization.
    * @returns The created Admin object or an error message.
    */
-  async execute(email: string, password: string, token: string) {
+  async execute(email: string, password: string, token: string): Promise<any> {
     try {
       // Verify the JWT token and extract the creator's ID
       const creatorId = (await this.jwt.verify(token)) as string;

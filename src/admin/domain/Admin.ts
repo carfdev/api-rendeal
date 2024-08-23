@@ -3,7 +3,6 @@ export class Admin {
     public readonly id: string,
     public readonly email: string,
     public readonly password: string,
-    public readonly rolId: number,
-    public readonly error?: string
+    public readonly rolId: number
   ) {}
 }
