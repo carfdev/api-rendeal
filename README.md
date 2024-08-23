@@ -10,6 +10,7 @@ Welcome to the Rendeal Cleaning Service API documentation. This API provides var
 - [Endpoints](#endpoints)
   - [/admin/login](#adminlogin)
   - [/admin/create](#admincreate)
+  - [/admin/me](#adminme)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
 - [License](#license)
@@ -131,6 +132,37 @@ The server will be running at http://localhost:1337 by default.
   {
     "status": "success",
     "message": "Admin created successfully"
+  }
+  ```
+
+### `admin/me`
+
+- Method: GET
+- Description: Retrieve the current administrator's information. This endpoint returns the details of the admin who is currently authenticated based on the provided JWT token.
+- Request Example:
+
+  - endpoint:
+
+    ```bash
+    GET http://localhost:1337/v1/admin/me
+    ```
+
+  - Headers:
+
+    ```plaintext
+    Authorization: Bearer <your-jwt-token>
+    ```
+
+- Response:
+
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": "admin-id",
+      "email": "admin@example.com",
+      "rol": "admin"
+    }
   }
   ```
 
