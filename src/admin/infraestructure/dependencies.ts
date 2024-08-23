@@ -6,10 +6,12 @@ import { AdminRepository } from "@/admin/infraestructure/AdminRepository"; // Re
 // Import application services
 import { Login } from "@/admin/aplication/login"; // Service for handling login logic
 import { Create } from "@/admin/aplication/create"; // Service for handling admin creation logic
+import { GetMe } from "@/admin/aplication/getMe"; // Service for getting admin information
 
 // Import controllers
 import { LoginController } from "./controllers/loginController"; // Controller for login endpoint
 import { CreateController } from "./controllers/createController"; // Controller for create admin endpoint
+import { GetMeController } from "./controllers/getMeController"; // Controller for get admin endpoint
 
 // Instantiate services
 const hash = new Hash(); // Hash service for hashing passwords
@@ -21,7 +23,9 @@ const adminRepository = new AdminRepository(); // Repository for database intera
 // Instantiate application services with injected dependencies
 const login = new Login(adminRepository, jwt, hash); // Login service with dependencies
 const create = new Create(adminRepository, jwt, hash); // Create service with dependencies
+const getMe = new GetMe(adminRepository, jwt); // GetMe service with dependencies
 
 // Instantiate controllers with injected application services
 export const loginController = new LoginController(login); // LoginController with Login service
 export const createController = new CreateController(create); // CreateController with Create service
+export const getMeController = new GetMeController(getMe); // GetMeController with GetMe service
