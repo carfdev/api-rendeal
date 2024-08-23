@@ -55,3 +55,24 @@ export const createAdminDTO = {
     }
   ),
 };
+
+// Define the data transfer object (DTO) for the forgot password request
+export const forgotPasswordDTO = {
+  body: t.Object(
+    {
+      email: t.String({
+        format: "email",
+        error: {
+          status: "error",
+          message: "Invalid email format",
+        },
+      }), // Email field with format validation
+    },
+    {
+      error: {
+        status: "error",
+        message: "Email is required", // General error message for missing fields
+      },
+    }
+  ),
+};
