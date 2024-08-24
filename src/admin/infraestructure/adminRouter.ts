@@ -6,8 +6,14 @@ import {
   createController,
   getMeController,
   forgotPasswordController,
+  changePasswordController,
 } from "./dependencies"; // Controllers for handling requests
-import { loginAdminDTO, createAdminDTO, forgotPasswordDTO } from "./adminDTO"; // DTOs for validating request bodies
+import {
+  loginAdminDTO,
+  createAdminDTO,
+  forgotPasswordDTO,
+  updatePasswordDTO,
+} from "./adminDTO"; // DTOs for validating request bodies
 
 // Create and configure the admin router with a "/admin" prefix
 export const adminRouter = new Elysia({ prefix: "/admin" })
@@ -29,4 +35,9 @@ export const adminRouter = new Elysia({ prefix: "/admin" })
     "/forgot-password", // Route for handling forgot password requests
     forgotPasswordController.handle.bind(forgotPasswordController), // Bind the handle method from ForgotPasswordController to this route
     forgotPasswordDTO // Apply DTO for validating forgot password request body
+  )
+  .post(
+    "/reset-password/:token", // Route for handling change password requests
+    changePasswordController.handle.bind(changePasswordController), // Bind the handle method from ChangePasswordController to this route
+    updatePasswordDTO // Apply DTO for validating change password request body
   );
