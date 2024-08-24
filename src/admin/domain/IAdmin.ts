@@ -9,4 +9,5 @@ export interface IAdmin {
   getAdminByEmail(email: string): Promise<Admin | null>;
   getAdminById(id: string): Promise<Admin | null>;
   createAdmin(email: string, password: string): Promise<Admin | null>;
+  updatePassword(email: string, password: string): Promise<Admin | null>;
 }
