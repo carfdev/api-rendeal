@@ -9,12 +9,14 @@ import { Login } from "@/admin/aplication/login"; // Service for handling login 
 import { Create } from "@/admin/aplication/create"; // Service for handling admin creation logic
 import { GetMe } from "@/admin/aplication/getMe"; // Service for getting admin information
 import { ForgotPassword } from "@/admin/aplication/forgotPassword"; // Service for handling forgot password logic
+import { ChangePassword } from "@/admin/aplication/changePassword";
 
 // Import controllers
 import { LoginController } from "./controllers/loginController"; // Controller for login endpoint
 import { CreateController } from "./controllers/createController"; // Controller for create admin endpoint
 import { GetMeController } from "./controllers/getMeController"; // Controller for get admin endpoint
 import { ForgotPasswordController } from "./controllers/frogotPasswordController"; // Controller for forgot password
+import { ChangePasswordController } from "./controllers/changePasswordController";
 
 // Instantiate services
 const hash = new Hash(); // Hash service for hashing passwords
@@ -29,6 +31,7 @@ const login = new Login(adminRepository, jwt, hash); // Login service with depen
 const create = new Create(adminRepository, jwt, hash); // Create service with dependencies
 const getMe = new GetMe(adminRepository, jwt); // GetMe service with dependencies
 const forgotPassword = new ForgotPassword(adminRepository, jwt, email); // ForgotPassword service with dependencies
+const changePassword = new ChangePassword(adminRepository, jwt, hash);
 
 // Instantiate controllers with injected application services
 export const loginController = new LoginController(login); // LoginController with Login service
@@ -37,3 +40,6 @@ export const getMeController = new GetMeController(getMe); // GetMeController wi
 export const forgotPasswordController = new ForgotPasswordController(
   forgotPassword
 ); // ForgotPasswordController with ForgotPassword service
+export const changePasswordController = new ChangePasswordController(
+  changePassword
+); // ChangePasswordController with ChangePassword service
