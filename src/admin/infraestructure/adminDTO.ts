@@ -76,3 +76,24 @@ export const forgotPasswordDTO = {
     }
   ),
 };
+
+// Define the data transfer object (DTO) for the change password request
+export const updatePasswordDTO = {
+  body: t.Object(
+    {
+      password: t.String({
+        minLength: 8,
+        error: {
+          status: "error",
+          message: "Password must be at least 8 characters long",
+        },
+      }), // Password field with minimum length validation
+    },
+    {
+      error: {
+        status: "error",
+        message: "Password is required", // General error message for missing fields
+      },
+    }
+  ),
+};
