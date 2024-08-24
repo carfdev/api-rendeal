@@ -6,6 +6,7 @@ import {
   SelectType,
   FindUniqueObject,
   CreateObject,
+  UpdateObject,
 } from "@/services/interfaces/IPG"; // Import types
 
 // Helper function to parse the database URL
@@ -80,6 +81,10 @@ class RedisCache {
       EX: expiration,
       NX: true,
     });
+  }
+
+  async del(key: string) {
+    await this.client.del(key);
   }
 }
 
@@ -187,5 +192,66 @@ export class DB {
     workers: async (data) => this.createMethod("public.workers", data),
     clients: async (data) => this.createMethod("public.clients", data),
     invoices: async (data) => this.createMethod("public.invoices", data),
+  };
+
+  /**
+   * Update a record in the specified table.
+   * @param table - The table to update.
+   * @param where - The conditions for the update.
+   * @param set - The fields to update.
+   * @returns The updated record if successful, otherwise null.
+   */
+
+  private async updateMethod(
+    table: string,
+    where: WhereType,
+    set: Record<string, any>
+  ) {
+    const keys = Object.keys(set);
+    const values = Object.values(set);
+    const whereKeys = Object.keys(where);
+    const whereValues = Object.values(where);
+
+    // Build the SQL query
+    const query = `
+      UPDATE ${table}
+      SET ${keys.map((key, index) => `${key} = $${index + 1}`).join(", ")}
+      WHERE ${whereKeys
+        .map((key, index) => `${key} = $${index + 1 + keys.length}`)
+        .join(" AND ")}
+      RETURNING *;
+    `;
+    try {
+      // Check Redis cache
+      const cacheKey = `${table}_${whereValues.join("_")}`;
+      const cached = await this.cache.get(cacheKey);
+      // If the record is in the cache, delete it
+      if (cached) {
+        await this.cache.del(cacheKey);
+      }
+
+      // Query PostgreSQL
+      const result = await this.db.query(query, [...values, ...whereValues]);
+      const record = result[0] || null;
+      // Cache the result in Redis
+      await this.cache.set(cacheKey, record, 3600);
+      // Return the updated record
+      return record;
+    } catch (error) {
+      console.error("Database query failed:", error);
+      return null;
+    }
+  }
+
+  // Implement the update methods for each table
+  update: UpdateObject = {
+    admins: async (where, set) =>
+      this.updateMethod("public.admins", where, set),
+    workers: async (where, set) =>
+      this.updateMethod("public.workers", where, set),
+    clients: async (where, set) =>
+      this.updateMethod("public.clients", where, set),
+    invoices: async (where, set) =>
+      this.updateMethod("public.invoices", where, set),
   };
 }

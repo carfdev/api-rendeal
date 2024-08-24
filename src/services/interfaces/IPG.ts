@@ -43,3 +43,23 @@ export type CreateObject = {
   clients: (data: Record<string, any>) => Promise<Record<string, any>>;
   invoices: (data: Record<string, any>) => Promise<Record<string, any>>;
 };
+
+// Generic UpdateObject interface for different table types
+export type UpdateObject = {
+  admins: (
+    where: WhereType,
+    set: WhereType
+  ) => FindUniqueReturnType<Record<string, any>>;
+  workers: (
+    where: WhereType,
+    set: WhereType
+  ) => FindUniqueReturnType<Record<string, any>>;
+  clients: (
+    where: WhereType,
+    set: WhereType
+  ) => FindUniqueReturnType<Record<string, any>>;
+  invoices: (
+    where: WhereType,
+    set: WhereType
+  ) => FindUniqueReturnType<Record<string, any>>;
+};
