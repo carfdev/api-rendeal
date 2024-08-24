@@ -12,7 +12,7 @@ Welcome to the Rendeal Cleaning Service API documentation. This API provides var
   - [/admin/create](#admincreate)
   - [/admin/me](#adminme)
   - [/admin/forgot-password](#adminforgot-password)
-  - [/admin/reset-password/token](#adminreset-password:token)
+  - [/admin/reset-password/token](#adminreset-passwordtoken)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
 - [License](#license)
@@ -197,7 +197,7 @@ The server will be running at http://localhost:1337 by default.
   }
   ```
 
-### `/reset-password/:token`
+### `admin/reset-password/:token`
 
 - Method: POST
 - Description: This endpoint is used to reset the user's password using the token provided in the password reset link.
