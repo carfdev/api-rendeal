@@ -11,6 +11,8 @@ Welcome to the Rendeal Cleaning Service API documentation. This API provides var
   - [/admin/login](#adminlogin)
   - [/admin/create](#admincreate)
   - [/admin/me](#adminme)
+  - [/admin/forgot-password](adminforgot-password)
+  - [/admin/reset-password/token](adminreset-password:token)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
 - [License](#license)
@@ -163,6 +165,64 @@ The server will be running at http://localhost:1337 by default.
       "email": "admin@example.com",
       "rol": "admin"
     }
+  }
+  ```
+
+### `admin/forgot-password`
+
+- Method: POST
+- Description: This endpoint is used to initiate the password recovery process. The user must provide their email address, and if it matches an account, a password reset link will be sent to the email.
+- Request Example:
+
+  - endpoint:
+
+    ```bash
+    POST http://localhost:1337/v1/admin/forgot-password
+    ```
+
+  - body:
+
+    ```json
+    {
+      "email": "admin1@example.com"
+    }
+    ```
+
+- Response:
+
+  ```json
+  {
+    "status": "success",
+    "message": "Email sent successfully"
+  }
+  ```
+
+### `/reset-password/:token`
+
+- Method: POST
+- Description: This endpoint is used to reset the user's password using the token provided in the password reset link.
+- Request Example:
+
+  - endpoint:
+
+    ```bash
+    POST http://localhost:1337/v1/admin/reset-password/token-sent-by-email
+    ```
+
+  - body:
+
+    ```json
+    {
+      "password": "newPassword123"
+    }
+    ```
+
+- Response:
+
+  ```json
+  {
+    "status": "success",
+    "message": "Password changed successfully"
   }
   ```
 
