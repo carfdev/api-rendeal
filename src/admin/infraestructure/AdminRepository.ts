@@ -100,4 +100,33 @@ export class AdminRepository implements IAdmin {
       return null; // Handle database errors
     }
   }
+
+  /**
+   * Updates the password of an admin in the database.
+   * @param email - The email of the admin to update.
+   * @param password - The new password of the admin (hashed).
+   * @returns A promise that resolves to the updated Admin object if successful, or null if not.
+   */
+  async updatePassword(email: string, password: string): Promise<Admin | null> {
+    try {
+      // Update the password of the admin in the database
+      const adminData = await this.db.update.admins({ email }, { password });
+
+      if (adminData) {
+        // If the password was updated successfully, return an instance of the Admin class
+        return new Admin(
+          adminData.id,
+          adminData.email,
+          adminData.password,
+          adminData.rol_id
+        );
+      } else {
+        // If the password was not updated, return null
+        return null;
+      }
+    } catch (error) {
+      console.error("Failed to update admin password:", error);
+      return null; // Handle database errors
+    }
+  }
 }
