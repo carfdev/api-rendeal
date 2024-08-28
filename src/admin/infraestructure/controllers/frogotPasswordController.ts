@@ -3,6 +3,7 @@ import { ForgotPassword } from "@/admin/aplication/forgotPassword";
 // Define the expected structure of the request body
 type Body = {
   email: string;
+  link: string;
 };
 
 export class ForgotPasswordController {
@@ -10,11 +11,11 @@ export class ForgotPasswordController {
 
   // Handle the request for resetting a password
   async handle({ body, set }: { body: Body; set: { status: number } }) {
-    const { email } = body; // Extract the email from the request body
+    const { email, link } = body; // Extract the email from the request body
 
     try {
       // Execute the forgot password logic with the provided email
-      const res = await this.forgotPassword.execute(email);
+      const res = await this.forgotPassword.execute(email, link);
 
       // Check if the response contains an error
       if (res.error) {

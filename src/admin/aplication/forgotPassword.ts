@@ -9,7 +9,7 @@ export class ForgotPassword {
     private readonly email: IEmail // Dependency for sending emails
   ) {}
 
-  async execute(email: string) {
+  async execute(email: string, link: string) {
     try {
       // Validate input
       if (!email) {
@@ -26,7 +26,7 @@ export class ForgotPassword {
       const token = await this.jwt.sign({ email }, "15m");
 
       // Construct the reset password URL with the generated token
-      const url = `https://example.com/reset-password?token=${token}`;
+      const url = `${link}?token=${token}`;
 
       // Define the email body with an HTML template
       const body = `

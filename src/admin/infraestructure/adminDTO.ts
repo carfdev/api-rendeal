@@ -66,7 +66,13 @@ export const forgotPasswordDTO = {
           status: "error",
           message: "Invalid email format",
         },
-      }), // Email field with format validation
+      }),
+      link: t.String({
+        error: {
+          status: "error",
+          message: "Link is required",
+        },
+      }),
     },
     {
       error: {
